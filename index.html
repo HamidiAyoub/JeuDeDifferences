@@ -1,0 +1,402 @@
+<!doctype html>
+<html >
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+		<title> Jeux de différence </title>
+		<link rel="icon" type="image/png" href="HA.png" />
+		<style> 
+		</style>    
+	</head>
+	<body style="background-color:#2ecc71; color:white">
+		<header> 
+			<nav class="navbar navbar-light ">
+				<img src="logo.svg" width="100" height="100" alt="Université Aix Marseille">
+			</nav>
+		</header>  
+	<div class="container">
+			<div class="row">
+				<div class="col" > 
+				
+				</div> 
+				
+				<div class="col-lg-4" style="text-align:center">
+					<h1> Jeux de différence </h1>
+						<form>
+							<div class="alert alert alert-danger alert-dismissible fade show" role="alert" id="alert" hidden >
+								<strong>Erreur !!</strong> Il faut saisir tout les champs.
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="alert alert alert-danger alert-dismissible fade show" role="alert" id="alertn" hidden >
+								<strong>Erreur !!</strong> Le nombre des erreurs est supérieur que le nombre des éléments .
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="form-group">
+								<label for="nbrElem">Nombre d'elements  :</label>
+								<input type="number" class="form-control" id="nbrElem"  placeholder="Saisir le nombre d'element à créer " required>
+							</div>
+							<div class="form-group">
+								<label for="nbrErreur">Nombre d'erreur à trouver :</label>
+								<input type="number" class="form-control" id="nbrErreur"  placeholder="Saisir le nombre d'erreur à trouver " required>
+							</div>
+							<div class="form-group">
+								<label for="langeurImage">Largeur d'image à générée </label>
+								<input type="number" class="form-control" id="langeurImage" placeholder="La largeur d'image " required>
+							</div>
+							<div class="form-group">
+								<label for="hauteurImage">Hauteur d'image à générée </label>
+								<input type="number" class="form-control" id="hauteurImage" placeholder="La hauteur d'image " required>
+							</div>
+							<a href="#figure"><button type="button" class="btn btn-primary"  onclick="dessiner()"  >Lancer la partie</button></a>
+						</form>
+				</div>
+				
+				<div class="col" > 
+				</div> 
+				
+			</div>
+			<hr style="width:500px; color:white; background-color:white; height:2px;" />	
+			<div class="row">
+				<div class="col" > 
+				</div> 
+				<div class="col-lg-4" style="text-align:center" >
+				 <h2><span class="badge badge-primary"  id="elementTrouver">  </span></h2> <h3><span class="badge badge-primary" id="temps"></span></h3>
+				</div> 
+			
+				<div class="col" > 
+				
+				</div> 
+					
+			</div>	
+			<div class="row">
+					<div class="col-lg" id="figure" style="background-color:white;border: 3px #3498db solid;"> 
+						
+					</div> 
+					<div class="col-lg-6" id="clone" style="background-color:white;border: 3px #3498db solid;"> 
+						
+					</div> 
+			</div>	
+			<div class="row">
+				<div class="col" > 
+				
+				</div> 
+				<div class="col-lg-4" style="text-align:center" >
+				<h2><span class="badge badge-primary" id="temps"></span></h2>
+				</div> 
+			
+				<div class="col" > 
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg" id="modal1" hidden> modal1</button>
+				<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" id="modal2" hidden>modal2</button>
+				</div> 
+					
+			</div>	
+	</div>
+		<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true"  >
+					<div class="modal-dialog" role="document">
+						<div class="modal-content" style="background-color:#2ecc71; color:white">
+							<div class="modal-header">
+								<h5 class="modal-title">La partie est terminée !</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+									<p id="modal"></p>
+									<p>Voulez-Voulez commencer une nouvelle partie .</p>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-primary" onclick="dessiner()" data-dismiss="modal">Nouvelle partie</button>
+								<button type="button" class="btn btn-secondary" onclick="fermer()" data-dismiss="modal">Fermer</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+					<div id="myModal" class="modal fade" role="dialog" >
+						<div class="modal-dialog" >
+							<div class="modal-content" style="background-color:#2ecc71; color:white">
+								<div class="modal-header">
+									
+									<h4 class="modal-title">Félicitation</h4>
+								</div>
+								<div class="modal-body">
+									<p>Vous Avez gagné la partie.</p>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-default" onclick="fermer()" data-dismiss="modal" >Close</button>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				
+			
+				<hr style="width:500px; color:white; background-color:white; height:2px;" />
+				
+	<footer> 
+		<h6 style="text-align:center"> Jeux de différence, Université Aix Marseille 2017/2018  </h5>
+	</footer> 
+	</body>
+	
+	<script type="text/javascript">// <![CDATA[
+			
+			var nbErreurTemps= 0;
+			var actif =null;
+			var nbrE =0;
+			var changementDetecter = 0;
+			
+			function myRandom(min, max)
+                {
+                    return Math.round(Math.random() * 1000000000) % (max - min + 1) + min;
+                }
+				
+			differences = function ()
+            {
+                //private
+                figuresSVG=[genererRect,genererCircel,genererLine,genererPolygon];
+                couleurs=["red","green","blue"];
+				couleursClone=["Yellow","Aqua","Black"]
+                
+                
+                function genererRect(width, height)
+                {
+                    rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+                    rect.setAttribute("x", myRandom(0,width-10));
+                    rect.setAttribute("y", myRandom(0,height-10));
+                    rect.setAttribute("width", myRandom(10,50));
+                    rect.setAttribute("height", myRandom(10,50));
+                    rect.setAttribute("stroke", couleurs[myRandom(0,2)]);
+                    rect.setAttribute("stroke-width", myRandom(1,3));
+                    rect.setAttribute("fill", "rgb("+myRandom(0,255)+","+myRandom(0,255)+","+myRandom(0,255)+")");
+					rect.setAttribute("opacity",0.5);
+					rect.setAttribute("erreur",0);
+					rect.setAttribute("ondblclick","verification(this)");
+					//rect.addEventListener("ondblclick", function(){verification(this);}, false);
+					
+                    return rect;
+                }
+				
+				function genererLine(width, height)
+                {
+					
+                    line = document.createElementNS("http://www.w3.org/2000/svg", 'line');
+                    line.setAttribute("x1", myRandom(0,width-10));
+                    line.setAttribute("y1", myRandom(0,height-10));
+                    line.setAttribute("x2", myRandom(0,width-10));
+                    line.setAttribute("y2", myRandom(0,height-10));
+                    line.setAttribute("stroke", couleurs[myRandom(0,2)]);
+                    line.setAttribute("stroke-width", myRandom(1,5));
+                    line.setAttribute("fill", "rgb("+myRandom(0,255)+","+myRandom(0,255)+","+myRandom(0,255)+")");
+				    line.setAttribute("erreur",0);
+					line.setAttribute("ondblclick","verification(this)");
+					//line.addEventListener("ondblclick", function(){verification(this);}, false);
+                    return line;
+                }
+				
+				function genererCircel(width, height)
+                {
+					
+                    circel = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
+                    circel.setAttribute("cx", myRandom(0,width-10));
+                    circel.setAttribute("cy", myRandom(0,height-10));
+                    circel.setAttribute("r", myRandom(0,30));
+                    circel.setAttribute("stroke", couleurs[myRandom(0,2)]);
+                    circel.setAttribute("stroke-width", myRandom(1,5));
+                    circel.setAttribute("fill", "rgb("+myRandom(0,255)+","+myRandom(0,255)+","+myRandom(0,255)+")");
+					circel.setAttribute("opacity",0.5);
+					circel.setAttribute("erreur",0);
+					circel.setAttribute("ondblclick","verification(this)");
+					//circel.addEventListener("ondblclick", function(){verification(this);}, false);
+                    return circel;
+                }
+				function genererPolygon(width, height)
+                {
+					
+                    polygon = document.createElementNS("http://www.w3.org/2000/svg", 'polygon');
+                    polygon.setAttribute("points", myRandom(0,width-10)+","+myRandom(0,width-10)+" "+myRandom(0,width-10)+","+myRandom(0,width-10)+" "+myRandom(0,width-10)+","+myRandom(0,width-10));  //200,10 250,190 160,210
+                    polygon.setAttribute("stroke", couleurs[myRandom(0,2)]);
+                    polygon.setAttribute("stroke-width", myRandom(1,5));
+                    polygon.setAttribute("fill", "rgb("+myRandom(0,255)+","+myRandom(0,255)+","+myRandom(0,255)+")");
+					polygon.setAttribute("opacity",0.5);
+					polygon.setAttribute("erreur",0);
+					polygon.setAttribute("ondblclick","verification(this)");
+					//polygon.addEventListener("ondblclick", function(){verification(this);}, false);
+                    return polygon;
+                }
+                //public
+                return {
+                    genererSVG:function(width,height,nbFigs){
+                        svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
+                        svg.setAttribute("width", width);
+                        svg.setAttribute("height", height);
+                        for (i=0;i<=nbFigs-1;i++)
+                        {
+                            svg.appendChild(figuresSVG[myRandom(0,3)](width,height));
+                        }
+                        return svg;
+                    }
+                };
+            }();
+            
+			function dessiner()
+			{
+			document.getElementById("alert").setAttribute("hidden",true);
+			var nbrElem = document.getElementById("nbrElem").value;
+			var nbrErreur = document.getElementById("nbrErreur").value;
+			var langeur = document.getElementById("langeurImage").value;
+			var hauteur = document.getElementById("hauteurImage").value;
+			nbrE=nbrErreur;
+				if( nbrElem!=0 && nbrErreur!=0 && langeur!=0 && hauteur!=0)
+				{
+						if(  Number(nbrElem) >= Number(nbrE ))
+						{
+						
+							 actif = window.setInterval("tempsPartie()",10000);
+							 nbErreurTemps=nbrErreur-1;
+							 changementDetecter=0;
+							 document.getElementById("temps").innerHTML=nbrErreur-1;
+							 document.getElementById("elementTrouver").innerHTML="0 / "+nbrErreur;
+							document.getElementById("alertn").setAttribute("hidden",true);
+							document.getElementById("figure").innerHTML="";
+							document.getElementById("clone").innerHTML="";
+							document.getElementById("temps").innerHTML=nbErreurTemps;
+							svg=differences.genererSVG(langeur,hauteur,nbrElem);
+							//document.getElementsByTagName("body")[0].appendChild(svg);
+							document.getElementById("figure").appendChild(svg);
+							var copie = document.getElementById("figure").firstElementChild.cloneNode(true);
+							for (i=0;i<nbrErreur;i++)
+							{
+								copie.childNodes[i].setAttribute("strokeDeBase", copie.childNodes[i].getAttribute("stroke"));
+								copie.childNodes[i].setAttribute("stroke", couleursClone[myRandom(0,2)]);
+								copie.childNodes[i].setAttribute("erreur", 1);
+							}
+							document.getElementById("clone").appendChild(copie);
+							document.getElementById("alert").setAttribute("hidden",true);
+						}
+						else 
+						{
+							document.getElementById("alertn").removeAttribute("hidden");
+							document.getElementById("figure").innerHTML="";
+							document.getElementById("clone").innerHTML="";
+						}
+				}
+				else
+				{
+					document.getElementById("alert").removeAttribute("hidden");
+				}
+				
+				
+			}
+           	 
+			  
+				function tempsPartie() 
+				{
+				//alert(nbErreurTemps);
+					nbErreurTemps-=1;
+					document.getElementById("temps").innerHTML=nbErreurTemps;
+					if(nbErreurTemps <= 0)
+					{
+						window.clearInterval(actif);
+						document.getElementById("temps").innerHTML="0";
+						document.getElementById("modal").innerHTML="Vous Avez trouvé "+changementDetecter+"/"+nbrE;
+						document.getElementById("modal1").click();
+					}
+				}
+				
+				function verification(variable) 
+				{
+				 if(variable.getAttribute("erreur") == "1")
+				 {
+					//alert( "changé");
+					if(variable.hasAttribute("strokeDeBase")) 
+					{
+					variable.setAttribute("stroke",variable.getAttribute("strokeDeBase"));
+					variable.removeAttribute("strokeDeBase");
+					changementDetecter++; 
+					document.getElementById("elementTrouver").innerHTML=changementDetecter+" / "+nbrE;
+					}
+					
+	
+				 }
+				 if(changementDetecter == nbrE)
+				 {
+				 window.clearInterval(actif);
+					//alert("Felicitation ... ");
+					document.getElementById("modal2").click();
+				 }
+				}
+				
+				function fermer(){
+							document.getElementById("figure").innerHTML="";
+							document.getElementById("clone").innerHTML="";
+							document.getElementById("nbrElem").value="";
+							document.getElementById("nbrErreur").value="";
+							document.getElementById("langeurImage").value="";
+							document.getElementById("hauteurImage").value="";
+							document.getElementById("elementTrouver").innerHTML="";
+							document.getElementById("temps").innerHTML="";
+				}
+	
+          
+		  
+		  
+/*
+            function genereRect(width, height)
+            {
+                rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+                rect.setAttribute("x", "100");
+                rect.setAttribute("y", "100");
+                rect.setAttribute("width", "100");
+                rect.setAttribute("height", "100");
+                rect.setAttribute("stroke", "red");
+                rect.setAttribute("stroke-width", "3");
+                rect.setAttribute("fill", "grey");
+                return rect;
+            }
+            function b(nb)
+            {
+                alert('fonction b');
+            }
+            function c(nb)
+            {
+                alert('fonction c');
+            }
+            functions = [genererRect, genererCercle, genererLine];
+            functions[2](100, 100);
+            function affiche()
+            {
+                if (this.erreur)
+                {
+                    alert('coucou');
+                    this.erreur = 0;
+                }
+            }
+            svg = document.createElementNS("http://www.w3.org/2000/svg", 'svg');
+            svg.setAttribute("width", "500");
+            svg.setAttribute("height", "300");
+            rect = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+            rect.setAttribute("x", "100");
+            rect.setAttribute("y", "100");
+            rect.setAttribute("width", "100");
+            rect.setAttribute("height", "100");
+            rect.setAttribute("stroke", "red");
+            rect.setAttribute("stroke-width", "3");
+            rect.setAttribute("fill", "grey");
+            svg.appendChild(rect);
+            document.getElementsByTagName("body")[0].appendChild(svg);
+            svg1 = svg.cloneNode(true);
+            rect.se
+            svg1.getElementsByTagName('rect')[0].setAttribute("fill", "red");
+            svg1.getElementsByTagName('rect')[0].erreur = 1;
+            svg1.getElementsByTagName('rect')[0].addEventListener("dblclick", affiche, false);
+            document.getElementsByTagName("body")[0].appendChild(svg1);
+            */
+// ]]></script>
+</html>
